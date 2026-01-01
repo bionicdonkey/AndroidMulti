@@ -1,0 +1,43 @@
+    def _load_instances(self) -> None:
+        """Load saved instances from disk"""
+        if not self._state_file.exists():
+            self.logger.debug("No saved instances file found")
+            return
+        
+        try:
+            with open(self._state_file, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            for instance_data in data.get('instances', []):
+                try:
+                    instance = EmulatorInstance.from_dict(instance_data)
+                    # Mark all loaded instances as stopped initially
+                    # They'll be updated by refresh_instances if still running
+                    instance.state = EmulatorState.STOPPED
+                    instance.pid = None
+                    self.instances[instance.name] = instance
+                    self.logger.debug(f"Loaded saved instance: {instance.name}")
+                except Exception as e:
+                    self.logger.warning(f"Failed to load instance from saved data: {e}")
+            
+            self.logger.info(f"Loaded {len(self.instances)} saved instance(s)")
+        except Exception as e:
+            self.logger.error(f"Failed to load instances from {self._state_file}: {e}")
+    
+    def _save_instances(self) -> None:
+        """Save current instances to disk"""
+        try:
+            # Ensure directory exists
+            self._state_file.parent.mkdir(parents=True, exist_ok=True)
+            
+            # Convert instances to dict
+            data = {
+                'instances': [inst.to_dict() for inst in self.instances.values()]
+            }
+            
+            with open(self._state_file, 'w', encoding='utf-8') as f:
+                json.dump(data, f, indent=2)
+            
+            self.logger.debug(f"Saved {len(self.instances)} instance(s) to {self._state_file}")
+        except Exception as e:
+            self.logger.error(f"Failed to save instances to {self._state_file}: {e}")

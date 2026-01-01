@@ -1,0 +1,21 @@
+android_sdk:
+  root: C:\Program Files (x86)\Android\android-sdk
+  emulator: C:\Program Files (x86)\Android\android-sdk\emulator\emulator.exe
+  adb: C:\Program Files (x86)\Android\android-sdk\platform-tools\adb.exe
+  avd_manager: C:\Program Files (x86)\Android\android-sdk\cmdline-tools\latest\bin\avdmanager.bat
+emulator:
+  hardware_acceleration: true
+  default_ram: 2048
+  default_vm_heap: 256
+  default_screen_density: 420
+  default_screen_resolution: 1080x1920
+input_sync:
+  enabled: false
+  sync_touch: true
+  sync_keyboard: true
+  sync_scroll: true
+  delay_ms: 0
+ui:
+  theme: auto
+  auto_refresh_interval: 2
+  show_emulator_preview: true

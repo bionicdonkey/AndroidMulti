@@ -1,0 +1,6 @@
+PyQt6>=6.6.0
+pyautogui>=0.9.54
+pynput>=1.7.6
+pure-python-adb>=0.3.0.dev0
+pyyaml>=6.0.1
+psutil>=5.9.6
